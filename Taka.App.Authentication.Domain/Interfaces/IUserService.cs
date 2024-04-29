@@ -8,5 +8,6 @@ namespace Taka.App.Authentication.Domain.Interfaces
         Task<User> CreateUserAsync(UserRegisterDto userRegisterDto);
         Task<User> UpdateUserAdminAsync(string email, string password);
         Task<User> AuthenticateAsync(string email, string password);
+        Task EnsureAdminUserAsync();        
     }
 }

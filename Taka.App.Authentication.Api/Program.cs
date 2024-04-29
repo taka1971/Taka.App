@@ -70,7 +70,16 @@ builder.Host.UseSerilog((ctx, config) =>
 });
 
 
+
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+    await userService.EnsureAdminUserAsync();
+}
+
 
 if (app.Environment.IsDevelopment())
 {

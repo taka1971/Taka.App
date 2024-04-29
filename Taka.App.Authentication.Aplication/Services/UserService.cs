@@ -18,7 +18,7 @@ namespace Taka.App.Authentication.Application.Services
             _userRepository = userRepository;
         }
 
-        public async Task<User> CreateUserAsync(UserRegisterDto userRegisterDto)
+        public async Task<User> CreateUserAsync(UserRegisterRequest userRegisterDto)
         {
             var existingUser = await _userRepository.GetUserByEmailAsync(userRegisterDto.Email);
             var msg = string.Empty;

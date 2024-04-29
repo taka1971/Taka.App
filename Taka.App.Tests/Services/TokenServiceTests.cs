@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using FluentAssertions;
 using Taka.App.Authentication.Domain.Enums;
 using System.Security.Cryptography;
+using Taka.App.Authentication.Domain.Interfaces;
 
 namespace Taka.App.Authentications.Tests.Validations
 {
@@ -25,8 +26,9 @@ namespace Taka.App.Authentications.Tests.Validations
                 ExpiresInMinutes = 60
             };
 
+            var refreshTokenService = Substitute.For<IRefreshTokenService>();
             _jwtSettings.Value.Returns(jwtSettings);
-            _tokenService = new TokenService(_jwtSettings);
+            _tokenService = new TokenService(_jwtSettings, refreshTokenService);
         }
 
         [Fact]
@@ -45,7 +47,7 @@ namespace Taka.App.Authentications.Tests.Validations
             // Act
             var token = _tokenService.GenerateJwtToken(user);
             var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadToken(token) as JwtSecurityToken;
+            var jwtToken = handler.ReadToken(token.AccessToken) as JwtSecurityToken;
 
             // Assert
             jwtToken.Claims.Should().ContainSingle(claim => claim.Type == "nameid" && claim.Value == user.Id);

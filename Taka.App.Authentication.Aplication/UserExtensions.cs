@@ -5,9 +5,9 @@ namespace Taka.App.Authentication.Application
 {
     public static class UserExtensions
     {
-        public static UserResponseDto ToDto(this User user)
+        public static UserResponseRequest ToDto(this User user)
         {
-            return new UserResponseDto(user.Id, user.Email, user.AccessibleMicroservices);            
+            return new UserResponseRequest(user.Id, user.Email, user.AccessibleMicroservices);            
         }
     }
 }

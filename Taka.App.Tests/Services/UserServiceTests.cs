@@ -33,7 +33,7 @@ namespace Taka.App.Authentications.Tests.Validations
         public async Task CreateUserAsync_ShouldCreateUser_WhenUserDoesNotExist()
         {
             // Arrange
-            var userDto = new UserRegisterDto("test@test.com", "password123", new List<Microservices> { Microservices.ServicesRental });
+            var userDto = new UserRegisterRequest("test@test.com", "password123", new List<Microservices> { Microservices.ServicesRental });
             _userRepository.GetUserByEmailAsync(userDto.Email).Returns(Task.FromResult<User>(null));
             _userRepository.CreateUserAsync(Arg.Any<User>()).Returns(Task.FromResult(new User {}));
 
@@ -48,7 +48,7 @@ namespace Taka.App.Authentications.Tests.Validations
         public async Task CreateUserAsync_ShouldThrowException_WhenUserAlreadyExists()
         {
             // Arrange
-            var userDto = new UserRegisterDto("test@test.com", "password123", new List<Microservices>());
+            var userDto = new UserRegisterRequest("test@test.com", "password123", new List<Microservices>());
             var existingUser = new User { Email = userDto.Email };
             _userRepository.GetUserByEmailAsync(userDto.Email).Returns(Task.FromResult(existingUser));
 

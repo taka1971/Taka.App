@@ -3,7 +3,7 @@ using Taka.App.Authentication.Domain.Dtos;
 
 namespace Taka.App.Authentication.Domain.Validations.Dtos
 {
-    public class UserRegisterDtoValidator : AbstractValidator<UserRegisterDto>
+    public class UserRegisterDtoValidator : AbstractValidator<UserRegisterRequest>
     {
         public UserRegisterDtoValidator()
         {

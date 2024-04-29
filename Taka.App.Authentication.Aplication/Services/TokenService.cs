@@ -7,19 +7,22 @@ using Taka.App.Authentication.Domain.Entities;
 using Taka.App.Authentication.Domain.Interfaces;
 using Newtonsoft.Json;
 using Taka.App.Authentication.Domain.Enums;
+using Taka.App.Authentication.Domain.Responses;
 
 namespace Taka.App.Authentication.Application.Services
 {
     public class TokenService : ITokenService
     {
         private readonly JwtSettings _jwtSettings;
+        private readonly IRefreshTokenService _refreshTokenService;
 
-        public TokenService(IOptions<JwtSettings> jwtSettings)
+        public TokenService(IOptions<JwtSettings> jwtSettings, IRefreshTokenService refreshTokenService)
         {
             _jwtSettings = jwtSettings.Value;
+            _refreshTokenService = refreshTokenService;
         }
 
-        public string GenerateJwtToken(User user)
+        public TokenResponse GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
@@ -36,7 +39,7 @@ namespace Taka.App.Authentication.Application.Services
 
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiresInMinutes),
-                Issuer = _jwtSettings.Issuer,                                                
+                Issuer = _jwtSettings.Issuer,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -46,7 +49,18 @@ namespace Taka.App.Authentication.Application.Services
             }
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+
+            var refreshToken = new RefreshToken
+            {
+                Token = Guid.NewGuid().ToString().Replace("-", ""),
+                Expires = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpiresInDays),
+                Created = DateTime.UtcNow,
+                UserEmail = user.Email,
+            };
+
+            _refreshTokenService.CreateRefreshTokenAsync(refreshToken);
+            
+            return new TokenResponse { AccessToken = tokenHandler.WriteToken(token), RefreshToken = refreshToken.Token };
         }
-    }
+    } 
 }

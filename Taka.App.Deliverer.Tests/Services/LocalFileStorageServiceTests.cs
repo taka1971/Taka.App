@@ -1,6 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using NSubstitute;
+using System.Drawing;
+using System.Drawing.Imaging;
 using Taka.App.Deliverer.Application.Services;
 
 namespace Taka.App.Deliverer.Tests.Services
@@ -9,20 +11,23 @@ namespace Taka.App.Deliverer.Tests.Services
     {
         private readonly LocalFileStorageService _storageService;
         private readonly IConfiguration _configuration;
+        private readonly string _tempDirectory;
 
         public LocalFileStorageServiceTests()
         {
             _configuration = Substitute.For<IConfiguration>();
             _storageService = new LocalFileStorageService(_configuration);
+            _tempDirectory = Path.GetTempPath();
         }
 
         [Fact]
         public async Task UploadFileAsync_ShouldSaveFileToConfiguredLocationAndReturnPath()
         {
             // Arrange
-            string expectedLocalPath = @"C:\Temp";
+            string expectedLocalPath = _tempDirectory;
             string expectedFileName = "testfile.png";
             string expectedFullPath = Path.Combine(expectedLocalPath, expectedFileName);
+            SetupUploadTest(expectedFileName);
             byte[] fileData = new byte[] { 0x1, 0x2, 0x3, 0x4 };
 
             _configuration["LocalStorage"].Returns(expectedLocalPath);
@@ -72,5 +77,24 @@ namespace Taka.App.Deliverer.Tests.Services
             // Cleanup
             File.Delete(resultPath);
         }
+
+        private void SetupUploadTest(string fileName)
+        {
+            var imagePath = Path.Combine(_tempDirectory, fileName);
+            
+            if (!File.Exists(imagePath))
+            {
+                using (var bitmap = new Bitmap(100, 100))
+                {
+                    using (var graphics = Graphics.FromImage(bitmap))
+                    {
+                        graphics.FillRectangle(Brushes.Azure, 0, 0, 100, 100);
+                    }
+
+                    bitmap.Save(imagePath, ImageFormat.Png);
+                }
+            }
+        }
+
     }
 }

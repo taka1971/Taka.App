@@ -16,14 +16,11 @@ namespace Taka.App.Authentication.Api.Controllers
     {
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
-        private readonly IRefreshTokenService _refreshTokenService;
-
-
-        public AuthController(IUserService userService, ITokenService tokenService, IRefreshTokenService refreshTokenService)
+       
+        public AuthController(IUserService userService, ITokenService tokenService)
         {
             _userService = userService;
-            _tokenService = tokenService;
-            _refreshTokenService = refreshTokenService;
+            _tokenService = tokenService;          
         }
 
 
@@ -138,7 +135,7 @@ namespace Taka.App.Authentication.Api.Controllers
         {
             try
             {
-                var token = await _refreshTokenService.RefreshToken(request);
+                var token = await _tokenService.RefreshToken(request);
 
                 Log.Information("Success. Generate Token from User {Email}.", request.UserEmail);
                 return Ok(token);

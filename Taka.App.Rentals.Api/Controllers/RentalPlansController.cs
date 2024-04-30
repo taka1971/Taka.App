@@ -36,7 +36,7 @@ namespace Taka.App.Rentals.Api.Controllers
             {
                 var rentalResponse = await _rentalPlanService.GetAllAsync();
 
-                return Ok(rentalResponse);
+                return rentalResponse.Any() ? Ok(rentalResponse) : NotFound("There is no registered Rental Plan.");
             }
             catch (DomainException ex)
             {

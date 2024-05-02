@@ -128,7 +128,7 @@ namespace Taka.App.Motor.Api.Controllers
         {
             try
             {
-                var createdMotorcycle = await _motorcycleService.AddAsync(motorcycleRequest);                
+                var createdMotorcycle = await _motorcycleService.AddAsync(motorcycleRequest); 
 
                 return CreatedAtAction(nameof(Get), new { id = createdMotorcycle.Id }, createdMotorcycle);
             }

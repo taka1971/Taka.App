@@ -63,8 +63,8 @@ namespace Taka.App.Motor.Tests.Services
             // Arrange
             var motorcycles = new List<Motorcycle>
         {
-            new Motorcycle { Id = Guid.NewGuid(), Year = 2021, Model = "Model1", Plate = "XYZ-1234" },
-            new Motorcycle { Id = Guid.NewGuid(), Year = 2022, Model = "Model2", Plate = "XYZ-5678" }
+            new Motorcycle { MotorcycleId = Guid.NewGuid(), Year = 2021, Model = "Model1", Plate = "XYZ-1234" },
+            new Motorcycle { MotorcycleId = Guid.NewGuid(), Year = 2022, Model = "Model2", Plate = "XYZ-5678" }
         };
             _motorcycleRepository.GetAllAsync().Returns(motorcycles);
 
@@ -81,7 +81,7 @@ namespace Taka.App.Motor.Tests.Services
         {
             // Arrange
             var id = Guid.NewGuid();
-            var motorcycle = new Motorcycle { Id = id };
+            var motorcycle = new Motorcycle { MotorcycleId = id };
             _motorcycleRepository.GetByIdAsync(id).Returns(Task.FromResult(motorcycle));  // Garantir que o repositório retorna uma motocicleta
 
             // Act
@@ -96,9 +96,9 @@ namespace Taka.App.Motor.Tests.Services
         public async Task UpdateAsync_ShouldUpdateMotorcyclePlate()
         {
             // Arrange
-            var motorcycle = new Motorcycle { Id = Guid.NewGuid(), Plate = "OLD-PLATE" };
-            var request = new MotorcycleUpdateRequest(motorcycle.Id, "NEW-PLATE");
-            _motorcycleRepository.GetByIdAsync(motorcycle.Id).Returns(motorcycle);
+            var motorcycle = new Motorcycle { MotorcycleId = Guid.NewGuid(), Plate = "OLD-PLATE" };
+            var request = new MotorcycleUpdateRequest(motorcycle.MotorcycleId, "NEW-PLATE");
+            _motorcycleRepository.GetByIdAsync(motorcycle.MotorcycleId).Returns(motorcycle);
 
             // Act
             await _service.UpdateAsync(request);

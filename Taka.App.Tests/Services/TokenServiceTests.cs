@@ -26,9 +26,10 @@ namespace Taka.App.Authentications.Tests.Validations
                 ExpiresInMinutes = 60
             };
 
-            var refreshTokenService = Substitute.For<IRefreshTokenService>();
+            var userRepository = Substitute.For<IUserRepository>();
+            var refreshTokenRepository = Substitute.For<IRefreshTokenRepository>();
             _jwtSettings.Value.Returns(jwtSettings);
-            _tokenService = new TokenService(_jwtSettings, refreshTokenService);
+            _tokenService = new TokenService(_jwtSettings, refreshTokenRepository, userRepository);
         }
 
         [Fact]

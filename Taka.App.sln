@@ -121,7 +121,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taka.App.Rentals.Tests", "T
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Security", "Security", "{61202FB2-526E-4661-9D6B-BB01E06A3E95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taka.App.Motor.Infra.Security", "Taka.App.Motor.Infra.Security\Taka.App.Motor.Infra.Security.csproj", "{0DC007E5-A737-48B4-843B-71A526FF3459}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taka.App.Motor.Infra.Security", "Taka.App.Motor.Infra.Security\Taka.App.Motor.Infra.Security.csproj", "{0DC007E5-A737-48B4-843B-71A526FF3459}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

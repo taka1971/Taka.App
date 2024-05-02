@@ -80,7 +80,6 @@ namespace Taka.App.Rentals.Application.Services
         {
             var rental = await _rentalRepository.GetRentalWithDetailsByIdAsync(id);
 
-
             return rental;
         }
 
@@ -129,14 +128,12 @@ namespace Taka.App.Rentals.Application.Services
             decimal basicCost = rentalPlan.DurationDays * rentalPlan.DailyRate;
                         
             if (daysRental > rentalPlan.DurationDays)
-            {
-                // Excess days: charge extra               
+            {                           
                 uint excessDays = daysRental - rentalPlan.DurationDays;
                 adjustment = excessDays * (rentalPlan.DailyRate + 50);
             }
             else if (daysRental < rentalPlan.DurationDays)
-            {
-                // Fewer days: apply an early return penalty
+            {                
                 basicCost = daysRental * rentalPlan.DailyRate;
                 uint underDays = rentalPlan.DurationDays - daysRental;
                 adjustment = underDays * (rentalPlan.DailyRate * (rentalPlan.EarlyReturnPenaltyRate / 100));

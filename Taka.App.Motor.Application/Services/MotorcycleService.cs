@@ -22,8 +22,8 @@ namespace Taka.App.Motor.Application.Services
 
         public async Task<MotorcycleResponse> AddAsync(MotorcycleCreateRequest motorcycleRequest)
         {
-            var motorcycle = MotorcycleMapper.DtoToEntity(motorcycleRequest);
-            await _motorcycleRepository.AddAsync(motorcycle);
+            var motorcycle = await _mediator.Send(new CreateMotorcycleCommand { MotorcycleId = Guid.NewGuid(), Model=motorcycleRequest.Model, Plate = motorcycleRequest.Plate, Year = motorcycleRequest.Year });
+            
             return MotorcycleMapper.EntityToDto(motorcycle);
         }
 
@@ -43,7 +43,7 @@ namespace Taka.App.Motor.Application.Services
             var motorcycles = await _motorcycleRepository.GetAllAsync();
 
             var motorcycleResponses = motorcycles.Select(m => new MotorcycleResponse
-            (   m.Id,
+            (   m.MotorcycleId,
                 m.Year,
                 m.Model,
                 m.Plate)

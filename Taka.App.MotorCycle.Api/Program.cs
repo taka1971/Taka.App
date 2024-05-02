@@ -24,11 +24,13 @@ using Taka.App.Motor.Domain.Exceptions;
 using Taka.App.Motor.Application.Handlers;
 using Taka.App.Motor.Infra.Security.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using Taka.App.Motor.Infra.Data.Connections;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<ResilienceEngine>();
+builder.Services.AddSingleton<IRabbitConnectionFactory, RabbitConnectionFactory>();
 builder.Services.AddScoped<IMotorcycleService, MotorcycleService>();
 builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
 builder.Services.AddScoped<IRentalRepository, RentalRepository>();
@@ -81,7 +83,7 @@ builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection(
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 builder.Services.AddMediatR(options =>
 {
-    options.RegisterServicesFromAssemblies(typeof(CheckRentalAvailabilityHandler).Assembly);    
+    options.RegisterServicesFromAssemblies(typeof(CheckRentalAvailabilityCommandHandler).Assembly);    
 });
 
 builder.Services.AddControllers();

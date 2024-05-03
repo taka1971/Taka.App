@@ -128,9 +128,9 @@ namespace Taka.App.Motor.Api.Controllers
         {
             try
             {
-                var createdMotorcycle = await _motorcycleService.AddAsync(motorcycleRequest); 
+                await _motorcycleService.AddAsync(motorcycleRequest);
 
-                return CreatedAtAction(nameof(Get), new { id = createdMotorcycle.Id }, createdMotorcycle);
+                return Ok();
             }
             catch (DomainException ex)
             {
@@ -187,7 +187,7 @@ namespace Taka.App.Motor.Api.Controllers
         {
             try
             {
-                await _motorcycleService.RequestDeleteAsync(id);
+                await _motorcycleService.DeleteAsync(id);
 
                 return NoContent();
             }

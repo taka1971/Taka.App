@@ -9,6 +9,9 @@ using Newtonsoft.Json;
 using Taka.App.Motor.Domain.Dtos;
 using Serilog;
 using Microsoft.Extensions.DependencyInjection;
+using Taka.App.Motor.Domain.Events;
+using Taka.App.Motor.Domain.Entitites;
+using Taka.App.Motor.Domain.Request;
 
 namespace Taka.App.Motor.Application.BackgroundService
 {
@@ -75,8 +78,14 @@ namespace Taka.App.Motor.Application.BackgroundService
                     var motorcycleService = scope.ServiceProvider.GetRequiredService<IMotorcycleService>();
                     try
                     {
-                        var response = JsonConvert.DeserializeObject<RentalPermitedResponse>(message) ?? throw new AppException("Failed to try to read the message in the queue.");
-                        await motorcycleService.DeleteAsync(response);
+                        var response = JsonConvert.DeserializeObject<MotorcycleCreatedEvent>(message) ?? throw new AppException("Failed to try to read the message in the queue.");
+
+                        if (response.Year == 2024)
+                        {
+                            var motorcycle = new Motorcycle { MotorcycleId = response.MotorcycleId, Year = response.Year , Model = response.Model, Plate = response.Plate};
+                            await motorcycleService.AddConfirmAsync(motorcycle);
+                        }
+
                         _channel?.BasicAck(ea.DeliveryTag, false);
                     }
                     catch (Exception ex)

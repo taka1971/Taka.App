@@ -3,7 +3,7 @@ using Taka.App.Motor.Domain.Entitites;
 
 namespace Taka.App.Motor.Domain.Commands
 {
-    public class CreateMotorcycleCommand : IRequest<Motorcycle>
+    public class CreateMotorcycleCommand : IRequest
     {
         public Guid MotorcycleId { get; set; }
         public string? Model { get; set; }

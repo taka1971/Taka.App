@@ -83,7 +83,8 @@ builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection(
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 builder.Services.AddMediatR(options =>
 {
-    options.RegisterServicesFromAssemblies(typeof(CheckRentalAvailabilityCommandHandler).Assembly);    
+    options.RegisterServicesFromAssemblies(typeof(CreateMotorcycleCommandHandler).Assembly);
+    options.RegisterServicesFromAssemblies(typeof(MotorcycleCreatedEventHandler).Assembly);
 });
 
 builder.Services.AddControllers();

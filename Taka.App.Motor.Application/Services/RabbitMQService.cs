@@ -1,6 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RabbitMQ.Client;
 using System.Text;
 using Taka.App.Motor.Domain.Interfaces;

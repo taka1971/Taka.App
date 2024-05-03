@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using RabbitMQ.Client;
+using Serilog;
 using System.Text;
 using Taka.App.Motor.Domain.Interfaces;
 
@@ -30,11 +31,11 @@ namespace Taka.App.Motor.Application.Services
 
                 if (channel.WaitForConfirms())
                 {
-                    Console.WriteLine("Mensagem publicada com sucesso.");
+                    Log.Information("Mensagem publicada com sucesso.");
                 }
                 else
                 {
-                    Console.WriteLine("Falha ao publicar a mensagem.");
+                    Log.Warning("Falha ao publicar a mensagem.");
                 }
             }
         }

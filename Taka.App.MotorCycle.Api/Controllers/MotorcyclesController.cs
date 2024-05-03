@@ -128,7 +128,7 @@ namespace Taka.App.Motor.Api.Controllers
             {
                 await _motorcycleService.AddAsync(motorcycleRequest);
 
-                return Ok();
+                return Accepted(new { message = "Motorcycle registration received and is being processed." });
             }
             catch (DomainException ex)
             {

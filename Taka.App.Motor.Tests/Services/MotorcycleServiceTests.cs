@@ -1,20 +1,12 @@
-﻿using Xunit;
-using NSubstitute;
-using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using NSubstitute;
 using FluentAssertions;
 using MediatR;
 using Taka.App.Motor.Application.Services;
 using Taka.App.Motor.Domain.Interfaces;
 using Taka.App.Motor.Domain.Request;
-using Taka.App.Motor.Application.Mappers;
-using Taka.App.Motor.Domain.Dtos;
 using Taka.App.Motor.Domain.Exceptions;
 using Taka.App.Motor.Domain.Entitites;
 using Taka.App.Motor.Domain.Responses;
-using Taka.App.Motor.Domain.Commands;
-using Taka.App.Motor.Domain.Enums;
 
 namespace Taka.App.Motor.Tests.Services
 {

@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Writers;
 using Taka.App.Motor.Domain.Enums;
 using Taka.App.Motor.Domain.Exceptions;
 using Taka.App.Motor.Domain.Interfaces;
 using Taka.App.Motor.Domain.Request;
-using Taka.App.Motor.Domain.Responses;
 using Taka.Common.Infrastructure;
 
 namespace Taka.App.Motor.Api.Controllers

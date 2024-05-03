@@ -6,27 +6,28 @@ using System.Text;
 using Taka.App.Motor.Domain.Exceptions;
 using Taka.App.Motor.Domain.Interfaces;
 using Newtonsoft.Json;
-using Taka.App.Motor.Domain.Dtos;
 using Serilog;
 using Microsoft.Extensions.DependencyInjection;
 using Taka.App.Motor.Domain.Events;
 using Taka.App.Motor.Domain.Entitites;
-using Taka.App.Motor.Domain.Request;
 
 namespace Taka.App.Motor.Application.BackgroundService
 {
     public class RabbitMQConsumerService : IHostedService, IDisposable
-    {        
-        private readonly IConfiguration _configuration;        
+    {
+        private readonly IRabbitConnectionFactory _connectionFactory;
         private readonly IServiceScopeFactory _scopeFactory;
+        private readonly IConfiguration _configuration;                
         private IConnection? _connection;
         private IModel? _channel;
         private Timer? _timer;
 
-        public RabbitMQConsumerService(IConfiguration configuration, IServiceScopeFactory scopeFactory)
-        {        
+        public RabbitMQConsumerService(IConfiguration configuration, IRabbitConnectionFactory connectionFactory, IServiceScopeFactory scopeFactory)
+        {
             _configuration = configuration;
-            _scopeFactory = scopeFactory;   
+            _connectionFactory = connectionFactory;            
+            _scopeFactory = scopeFactory;
+
             InitRabbitMQ();
         }
 
@@ -58,13 +59,12 @@ namespace Taka.App.Motor.Application.BackgroundService
             Log.Information("RabbitMQ Consumer Service running.");
 
             _timer = new Timer(ConsumeMessages, null, TimeSpan.Zero,
-                TimeSpan.FromSeconds(3));
+                TimeSpan.FromSeconds(30));
 
             return Task.CompletedTask;
         }
 
-        private void ConsumeMessages(object? state)
-        {
+        private void ConsumeMessages(object? state){
             var consumer = new EventingBasicConsumer(_channel);
             consumer.Received += async (model, ea) =>
             {
@@ -77,11 +77,13 @@ namespace Taka.App.Motor.Application.BackgroundService
                 {
                     var motorcycleService = scope.ServiceProvider.GetRequiredService<IMotorcycleService>();
                     try
-                    {
-                        var response = JsonConvert.DeserializeObject<MotorcycleCreatedEvent>(message) ?? throw new AppException("Failed to try to read the message in the queue.");
+                    {                        
+                        var jsonString = JsonConvert.DeserializeObject<string>(message) ?? throw new AppException("Failed to try to read the message in the queue.");
+                        var response = JsonConvert.DeserializeObject<MotorcycleCreatedEvent>(jsonString);
 
-                        if (response.Year == 2024)
+                        if (response?.Year == 2024)
                         {
+                            Log.Information("Passou");
                             var motorcycle = new Motorcycle { MotorcycleId = response.MotorcycleId, Year = response.Year , Model = response.Model, Plate = response.Plate};
                             await motorcycleService.AddConfirmAsync(motorcycle);
                         }
@@ -91,7 +93,7 @@ namespace Taka.App.Motor.Application.BackgroundService
                     catch (Exception ex)
                     {
                         Log.Error(ex, "Failed to process message");
-                        _channel?.BasicNack(ea.DeliveryTag, false, false);
+                        _channel?.BasicNack(ea.DeliveryTag, false, true);
                     }
                 }
             };

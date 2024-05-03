@@ -19,8 +19,8 @@ namespace Taka.App.Motor.Application.Handlers
         public async Task Handle(MotorcycleCreatedEvent notification, CancellationToken cancellationToken)
         {
             var message = JsonConvert.SerializeObject(notification);
-            var exchange = _configuration[""];
-            var routingKey = _configuration[""];
+            var exchange = _configuration["RabbitMQSettings:Producer:Exchange"];
+            var routingKey = _configuration["RabbitMQSettings:Producer:RoutingKey"];
             await _rabbitMQService.Publish(message, exchange, routingKey);
         }
     }

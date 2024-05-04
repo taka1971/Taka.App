@@ -26,17 +26,7 @@ namespace Taka.App.Motor.Application.Services
                     exchange: exchange,
                     routingKey: routingKey,                    
                     basicProperties: properties,
-                    body: body);
-
-
-                if (channel.WaitForConfirms())
-                {
-                    Log.Information("Mensagem publicada com sucesso.");
-                }
-                else
-                {
-                    Log.Warning("Falha ao publicar a mensagem.");
-                }
+                    body: body);                
             }
         }
     }

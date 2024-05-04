@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Taka.App.Motor.Domain.Entitites;
 
 namespace Taka.App.Motor.Domain.Commands
 {
@@ -8,6 +7,7 @@ namespace Taka.App.Motor.Domain.Commands
         public Guid MotorcycleId { get; set; }
         public string? Model { get; set; }
         public int Year { get; set; }
-        public string? Plate { get; set; }        
+        public string? Plate { get; set; }  
+
     }
 }

@@ -81,5 +81,10 @@ namespace Taka.App.Motor.Application.Services
                 await _motorcycleRepository.UpdateAsync(motorcycleResult);
             }
         }
+
+        public async Task PublishResponseAddAsync(ResultCreateMotorcycleCommand command)
+        {
+            await _mediator.Publish(command);
+        }
     }
 }

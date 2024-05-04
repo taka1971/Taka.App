@@ -4,6 +4,7 @@
     {
         MotorcycleNotFound = 1,
         PlateUpdateError = 2,
-        MotorcycleAlreadyExists = 3
+        MotorcycleAlreadyExists = 3,
+        MotorcycleYearNotAccept = 4,
     }
 }

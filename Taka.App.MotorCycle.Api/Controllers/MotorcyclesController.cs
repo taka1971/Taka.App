@@ -169,7 +169,6 @@ namespace Taka.App.Motor.Api.Controllers
             }
         }
 
-
         /// <summary>
         /// Delete a specific motorcycle
         /// </summary>

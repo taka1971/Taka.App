@@ -24,18 +24,16 @@ using Taka.App.Motor.Application.Handlers;
 using Taka.App.Motor.Infra.Security.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Taka.App.Motor.Infra.Data.Connections;
-using Microsoft.Extensions.Hosting;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<ResilienceEngine>();
 builder.Services.AddSingleton<IRabbitConnectionFactory, RabbitConnectionFactory>();
-builder.Services.AddSingleton<RabbitMqInit>();
 builder.Services.AddScoped<IMotorcycleService, MotorcycleService>();
 builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
 builder.Services.AddScoped<IRentalRepository, RentalRepository>();
 builder.Services.AddScoped<IRabbitMQService, RabbitMQService>();
+
 
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -147,14 +145,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
-
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var rabbitInit = services.GetRequiredService<RabbitMqInit>();
-        
-    rabbitInit.Initialize();
 }
 
 app.UseHttpsRedirection();

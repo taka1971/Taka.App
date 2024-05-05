@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Taka.App.Motor.Domain.Entitites;
-using Taka.App.Motor.Domain.Responses;
 
 namespace Taka.App.Motor.Domain.Commands
 {

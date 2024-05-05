@@ -84,7 +84,7 @@ namespace Taka.App.Motor.Application.Services
 
         public async Task PublishResponseAddAsync(ResultCreateMotorcycleCommand command)
         {
-            await _mediator.Publish(command);
+            await _mediator.Send(command);
         }
     }
 }

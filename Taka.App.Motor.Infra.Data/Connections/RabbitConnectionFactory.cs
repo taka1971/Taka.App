@@ -1,15 +1,16 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Polly;
 using RabbitMQ.Client;
+using Microsoft.Extensions.Configuration;
 using Taka.App.Motor.Domain.Interfaces;
 
 namespace Taka.App.Motor.Infra.Data.Connections
 {
     public class RabbitConnectionFactory : IRabbitConnectionFactory
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration;        
 
         public RabbitConnectionFactory(IConfiguration configuration)
-        {
+        {            
             _configuration = configuration;
         }
 
@@ -24,8 +25,12 @@ namespace Taka.App.Motor.Infra.Data.Connections
                     Password = _configuration["RabbitMQSettings:Password"]
                 };
 
-                return factory.CreateConnection();
+                return Policy
+             .Handle<Exception>()
+             .WaitAndRetry(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
+             .Execute(() => factory.CreateConnection());
+
             });
-        }
+        }                
     }
 }

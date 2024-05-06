@@ -81,7 +81,7 @@ namespace Taka.App.Deliverer.Tests.Services
         private void SetupUploadTest(string fileName)
         {
             var imagePath = Path.Combine(_tempDirectory, fileName);
-            
+
             if (!File.Exists(imagePath))
             {
                 using (var bitmap = new Bitmap(100, 100))

@@ -8,10 +8,12 @@ namespace Taka.App.Authentication.Infra.Data.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly IMongoCollection<User> _usersCollection;
+        
 
         public UserRepository(IMongoDatabase database)
         {
             _usersCollection = database.GetCollection<User>("Users");
+            
         }
 
         public async Task<User> CreateUserAsync(User user)
@@ -36,7 +38,7 @@ namespace Taka.App.Authentication.Infra.Data.Repositories
             await _usersCollection.UpdateOneAsync(filter, update);
                         
             return await GetUserByEmailAsync(email);
-        }
+        }        
     }
 
 }

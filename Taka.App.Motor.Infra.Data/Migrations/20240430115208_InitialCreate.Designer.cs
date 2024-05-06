@@ -12,7 +12,7 @@ using Taka.App.Motor.Infra.Data.Context;
 namespace Taka.App.Motor.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240420083044_InitialCreate")]
+    [Migration("20240430115208_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

@@ -1,6 +1,5 @@
 ﻿using Refit;
 using Taka.App.Rentals.Application.Services.Apis;
-using Taka.App.Rentals.Domain.Exceptions;
 using Taka.App.Rentals.Domain.Interfaces;
 using Taka.App.Rentals.Domain.Responses;
 

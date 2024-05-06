@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Writers;
 using Taka.App.Motor.Domain.Enums;
 using Taka.App.Motor.Domain.Exceptions;
 using Taka.App.Motor.Domain.Interfaces;
 using Taka.App.Motor.Domain.Request;
-using Taka.App.Motor.Domain.Responses;
 using Taka.Common.Infrastructure;
 
 namespace Taka.App.Motor.Api.Controllers
@@ -128,9 +126,9 @@ namespace Taka.App.Motor.Api.Controllers
         {
             try
             {
-                var createdMotorcycle = await _motorcycleService.AddAsync(motorcycleRequest);                
+                await _motorcycleService.AddAsync(motorcycleRequest);
 
-                return CreatedAtAction(nameof(Get), new { id = createdMotorcycle.Id }, createdMotorcycle);
+                return Accepted(new { message = "Motorcycle registration received and is being processed." });
             }
             catch (DomainException ex)
             {
@@ -171,7 +169,6 @@ namespace Taka.App.Motor.Api.Controllers
             }
         }
 
-
         /// <summary>
         /// Delete a specific motorcycle
         /// </summary>
@@ -187,7 +184,7 @@ namespace Taka.App.Motor.Api.Controllers
         {
             try
             {
-                await _motorcycleService.RequestDeleteAsync(id);
+                await _motorcycleService.DeleteAsync(id);
 
                 return NoContent();
             }

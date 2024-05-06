@@ -18,7 +18,7 @@ namespace Taka.App.Deliverer.Infra.Data.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     CNPJ = table.Column<string>(type: "character varying(14)", maxLength: 14, nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
                     CNHNumber = table.Column<string>(type: "text", nullable: false),
                     CNHType = table.Column<int>(type: "integer", nullable: false),
                     CNHImageUrl = table.Column<string>(type: "text", nullable: false)

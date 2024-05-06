@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Taka.App.Motor.Application.Mappers;
 using Taka.App.Motor.Domain.Commands;
-using Taka.App.Motor.Domain.Dtos;
+using Taka.App.Motor.Domain.Entitites;
 using Taka.App.Motor.Domain.Exceptions;
 using Taka.App.Motor.Domain.Interfaces;
 using Taka.App.Motor.Domain.Request;
@@ -11,27 +11,35 @@ namespace Taka.App.Motor.Application.Services
 {
     public class MotorcycleService : IMotorcycleService
     {
-        private readonly IMotorcycleRepository _motorcycleRepository;        
+        private readonly IMotorcycleRepository _motorcycleRepository;
+        private readonly IRentalRepository _rentalRepository;
         private readonly IMediator _mediator;
 
-        public MotorcycleService(IMotorcycleRepository motorcycleRepository, IMediator mediator)
+        public MotorcycleService(IMotorcycleRepository motorcycleRepository, IMediator mediator, IRentalRepository rentalRepository)
         {
-            _motorcycleRepository = motorcycleRepository;                        
+            _motorcycleRepository = motorcycleRepository;
+            _rentalRepository = rentalRepository;
             _mediator = mediator;
         }
 
-        public async Task<MotorcycleResponse> AddAsync(MotorcycleCreateRequest motorcycleRequest)
+        public async Task AddAsync(MotorcycleCreateRequest motorcycleRequest)
         {
-            var motorcycle = MotorcycleMapper.DtoToEntity(motorcycleRequest);
+            await _mediator.Send(new CreateMotorcycleCommand { MotorcycleId = Guid.NewGuid(), Model=motorcycleRequest.Model, Plate = motorcycleRequest.Plate, Year = motorcycleRequest.Year });                        
+        }
+
+        public async Task<MotorcycleResponse> AddConfirmAsync(Motorcycle motorcycle)        { 
+
             await _motorcycleRepository.AddAsync(motorcycle);
+
             return MotorcycleMapper.EntityToDto(motorcycle);
         }
 
-        public async Task DeleteAsync(RentalPermitedResponse rentalPermited)
+        public async Task DeleteAsync(Guid motorcycleId)
         {
-            if (rentalPermited.Permited)
+            var existRental = await _rentalRepository.GetActiveRental(motorcycleId);
+            if (!existRental)
             {
-                var motorcycle = await _motorcycleRepository.GetByIdAsync(rentalPermited.MotorcycleId);
+                var motorcycle = await _motorcycleRepository.GetByIdAsync(motorcycleId);
                 await _motorcycleRepository.DeleteAsync(motorcycle);
             }
             else
@@ -43,7 +51,7 @@ namespace Taka.App.Motor.Application.Services
             var motorcycles = await _motorcycleRepository.GetAllAsync();
 
             var motorcycleResponses = motorcycles.Select(m => new MotorcycleResponse
-            (   m.Id,
+            (   m.MotorcycleId,
                 m.Year,
                 m.Model,
                 m.Plate)
@@ -62,16 +70,7 @@ namespace Taka.App.Motor.Application.Services
         {
             var motorcycle = await _motorcycleRepository.GetByIdAsync(id);
             return MotorcycleMapper.EntityToDto(motorcycle);
-        }
-
-        public async Task RequestDeleteAsync(Guid id)
-        {
-            var motorcycle = await _motorcycleRepository.GetByIdAsync(id);
-            if (motorcycle != null)
-            {
-                await _mediator.Send(new CheckRentalAvailabilityCommand { MotorcycleId = id });                
-            }
-        }
+        }        
 
         public async Task UpdateAsync(MotorcycleUpdateRequest motorcycleRequest)
         {
@@ -81,6 +80,11 @@ namespace Taka.App.Motor.Application.Services
                 motorcycleResult.Plate = motorcycleRequest.Plate;
                 await _motorcycleRepository.UpdateAsync(motorcycleResult);
             }
+        }
+
+        public async Task PublishResponseAddAsync(ResultCreateMotorcycleCommand command)
+        {
+            await _mediator.Send(command);
         }
     }
 }

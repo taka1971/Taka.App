@@ -17,7 +17,7 @@ namespace Taka.App.Motor.Infra.Data.Context
 
             modelBuilder.Entity<Motorcycle>(entity =>
             {
-                entity.HasKey(e => e.Id);
+                entity.HasKey(e => e.MotorcycleId);
                 entity.Property(e => e.Plate).IsRequired().HasMaxLength(10);
                 entity.HasIndex(e => e.Plate).IsUnique();
             });

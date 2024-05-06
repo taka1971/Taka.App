@@ -17,7 +17,7 @@ namespace Taka.App.Authentications.Tests.Validations
         public void Should_HaveErrorWhenEmailIs_Invalid()
         {
             //Arrange
-            var userLoginDto = new UserLoginDto("test.test", "12345678");
+            var userLoginDto = new UserLoginRequest("test.test", "12345678");
 
             //Act
             var result = _validator.TestValidate(userLoginDto);
@@ -30,7 +30,7 @@ namespace Taka.App.Authentications.Tests.Validations
         public void Should_HaveErrorWhenPasswordIsTooShort()
         {
             //Arrange
-            var userLoginDto = new UserLoginDto("test.test", "1234");
+            var userLoginDto = new UserLoginRequest("test.test", "1234");
 
             //Act
             var result = _validator.TestValidate(userLoginDto);
@@ -43,7 +43,7 @@ namespace Taka.App.Authentications.Tests.Validations
         public void Should_HaveErrorWhenPasswordIsTooLong()
         {
             //Arrange
-            var userLoginDto = new UserLoginDto("test.test", new string('a', 17));
+            var userLoginDto = new UserLoginRequest("test.test", new string('a', 17));
             
             //Act
             var result = _validator.TestValidate(userLoginDto);
@@ -56,7 +56,7 @@ namespace Taka.App.Authentications.Tests.Validations
         public void Should_NotHaveErrorWhenInputIsValid()
         {
             //Arrange
-            var userLoginDto = new UserLoginDto("test@test.com", "12345678");
+            var userLoginDto = new UserLoginRequest("test@test.com", "12345678");
 
             var result = _validator.TestValidate(userLoginDto);
 

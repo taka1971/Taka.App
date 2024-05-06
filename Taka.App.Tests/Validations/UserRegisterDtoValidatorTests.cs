@@ -20,7 +20,7 @@ namespace Taka.App.Authentications.Tests.Validations
         public void Email_ShouldBeValidated(string email, bool expectedIsValid)
         {
             // Arrange
-            var model = new UserRegisterDto(email, "ValidPass123!", new List<Microservices> { Microservices.ServicesRental });
+            var model = new UserRegisterRequest(email, "ValidPass123!", new List<Microservices> { Microservices.ServicesRental });
 
             // Act
             var result = _validator.TestValidate(model);
@@ -44,7 +44,7 @@ namespace Taka.App.Authentications.Tests.Validations
         public void Password_ShouldHaveProperLength(string password, bool expectedIsValid)
         {
             // Arrange
-            var model = new UserRegisterDto("test@test.com", password, new List<Microservices> { Microservices.ServicesRental });
+            var model = new UserRegisterRequest("test@test.com", password, new List<Microservices> { Microservices.ServicesRental });
 
             // Act
             var result = _validator.TestValidate(model);
@@ -76,7 +76,7 @@ namespace Taka.App.Authentications.Tests.Validations
             var microServices = new List<Microservices>();
             microServices.Add(Microservices.ServicesRental);
 
-            var model = new UserRegisterDto("test@test.com", "ValidPass123!", microServices.ToList());
+            var model = new UserRegisterRequest("test@test.com", "ValidPass123!", microServices.ToList());
 
             // Act
             var result = _validator.TestValidate(model);
@@ -92,7 +92,7 @@ namespace Taka.App.Authentications.Tests.Validations
             // Arrange
             var microServices = new List<Microservices>();            
 
-            var model = new UserRegisterDto("test@test.com", "ValidPass123!", microServices.ToList());
+            var model = new UserRegisterRequest("test@test.com", "ValidPass123!", microServices.ToList());
 
             // Act
             var result = _validator.TestValidate(model);

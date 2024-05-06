@@ -4,7 +4,6 @@ using Taka.App.Deliverer.Domain.Exceptions;
 using Taka.App.Rentals.Domain.Enums;
 using Taka.App.Rentals.Domain.Interfaces;
 using Taka.App.Rentals.Domain.Requests;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Taka.App.Rentals.Api.Controllers
 {

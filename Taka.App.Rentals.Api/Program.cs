@@ -94,7 +94,6 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddInMemoryRateLimiting();
 builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-builder.Services.AddHostedService<RabbitMQConsumerService>();
 
 builder.Services.AddMediatR(options =>
 {

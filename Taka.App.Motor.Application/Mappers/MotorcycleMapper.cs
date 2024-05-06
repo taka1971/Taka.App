@@ -8,7 +8,7 @@ namespace Taka.App.Motor.Application.Mappers
     {
         public static MotorcycleResponse EntityToDto(Motorcycle motorcycle)
         {
-            return new MotorcycleResponse(motorcycle.Id, motorcycle.Year, motorcycle.Model, motorcycle.Plate);            
+            return new MotorcycleResponse(motorcycle.MotorcycleId, motorcycle.Year, motorcycle.Model, motorcycle.Plate);            
         }        
 
         public static Motorcycle DtoToEntity(MotorcycleCreateRequest motorcycle)

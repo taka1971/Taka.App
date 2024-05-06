@@ -4,8 +4,6 @@ using Taka.App.Rentals.Domain.Responses;
 using Taka.App.Deliverer.Domain.Exceptions;
 using Taka.App.Rentals.Application.Mappers;
 using Taka.App.Rentals.Domain.Exceptions;
-using MediatR;
-using Taka.App.Rentals.Domain.Commands;
 using Taka.App.Rentals.Domain.Entities;
 
 namespace Taka.App.Rentals.Application.Services
@@ -14,11 +12,15 @@ namespace Taka.App.Rentals.Application.Services
     {
         private readonly IRentalRepository _rentalRepository;
         private readonly IRentalPlanRepository _rentalPlanRepository;
+        private readonly IMotorcycleRepository _motorcycleRepositoy;
+        private readonly IDelivererRepository _delivererRepository;
         
-        public RentalService(IRentalRepository rentalRepository, IRentalPlanRepository rentalPlanRepository)
+        public RentalService(IRentalRepository rentalRepository, IRentalPlanRepository rentalPlanRepository, IMotorcycleRepository motorcycleRepository, IDelivererRepository delivererRepository)
         {
             _rentalRepository = rentalRepository;
             _rentalPlanRepository = rentalPlanRepository;            
+            _delivererRepository = delivererRepository;
+            _motorcycleRepositoy = motorcycleRepository;
         }
 
         public async Task<RentalResponse> CompleteRentalAsync(CompleteRentalRequest request)
@@ -38,6 +40,15 @@ namespace Taka.App.Rentals.Application.Services
 
         public async Task<RentalResponse> CreateRentalAsync(CreateRentalRequest request)
         {
+            if ( await _motorcycleRepositoy.GetMotorcycle(request.MotorcycleId) is null)
+                throw new AppException("Motorcycle not exist.");
+            
+            if ( await _delivererRepository.GetDeliverer(request.DelivererId) is null)
+                throw new AppException("Deliverer not exist."); 
+
+
+            var rentalPlan = await _rentalPlanRepository.GetRentalPlanByIdAsync(request.RentalPlanId) ?? throw new AppException("Rental Plan not exist.");
+
             var rentals = await _rentalRepository.GetRentalsByMotorcycleAsync(request.MotorcycleId);
 
             if (rentals.ToList().Exists(x => x.EndDate is null))
@@ -53,6 +64,8 @@ namespace Taka.App.Rentals.Application.Services
                 var result = await _rentalRepository.AddRentalAsync(rental);
 
                 var response = RentalMapper.EntityToDto(result);
+
+                response.RentalPlan = rentalPlan;
 
                 var daysPrevious = rental.PredictedEndDate - rental.StartDate;
 
@@ -130,5 +143,7 @@ namespace Taka.App.Rentals.Application.Services
 
             return basicCost + adjustment;
         }
+
+        
     }
 }

@@ -20,7 +20,7 @@ namespace Taka.App.Deliverer.Domain.Validations
                 .Length(5, 20)
                 .WithMessage("CNH must be between 5 and 20 characters.");
 
-            RuleFor(x => x.cnhType)
+            RuleFor(x => x.CnhType)
                 .IsInEnum()
                 .WithMessage("Invalid CNH type.");
 
@@ -31,8 +31,8 @@ namespace Taka.App.Deliverer.Domain.Validations
                 .WithMessage("The birth date cannot be in the future.");
 
             RuleFor(x => x.CnhImage)
-                .Must(file => file.EndsWith(".png"))
-                .WithMessage("The CNH image must be in PNG format.");
+            .Must(file => !string.IsNullOrEmpty(file) || !file.EndsWith(".png"))
+            .WithMessage("The CNH image is not null or must be in PNG format.");
         }
 
 

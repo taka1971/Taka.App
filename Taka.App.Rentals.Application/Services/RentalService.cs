@@ -14,13 +14,11 @@ namespace Taka.App.Rentals.Application.Services
     {
         private readonly IRentalRepository _rentalRepository;
         private readonly IRentalPlanRepository _rentalPlanRepository;
-        private readonly IMediator _mediator;
-
-        public RentalService(IRentalRepository rentalRepository, IRentalPlanRepository rentalPlanRepository, IMediator mediator)
+        
+        public RentalService(IRentalRepository rentalRepository, IRentalPlanRepository rentalPlanRepository)
         {
             _rentalRepository = rentalRepository;
-            _rentalPlanRepository = rentalPlanRepository;
-            _mediator = mediator;
+            _rentalPlanRepository = rentalPlanRepository;            
         }
 
         public async Task<RentalResponse> CompleteRentalAsync(CompleteRentalRequest request)
@@ -95,16 +93,7 @@ namespace Taka.App.Rentals.Application.Services
             var rentals = await _rentalRepository.GetRentalsByDelivererAsync(delivererId);
 
             return rentals.Any();
-        }
-
-        public async Task ResponseCheckRentalByMotorcycleIdAsync(Guid motorcycleId)
-        {
-            var rental = await _rentalRepository.GetRentalsByMotorcycleAsync(motorcycleId);
-
-            var isRentalActive = rental.ToList().Exists(x=> x.MotorcycleId == motorcycleId && x.EndDate is null) ;
-
-            await _mediator.Send(new CheckRentalAllowedCommand { MotorcycleId = motorcycleId , Permited = !isRentalActive });
-        }        
+        }             
 
         private async Task<(DateTime startDate, DateTime endDate)> CalculateDatesRental(Guid rentalPlanId)
         {

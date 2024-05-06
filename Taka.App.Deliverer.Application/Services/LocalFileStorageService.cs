@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Taka.App.Deliverer.Domain.Exceptions;
 using Taka.App.Deliverer.Domain.Interfaces;
 
 namespace Taka.App.Deliverer.Application.Services
@@ -13,7 +14,9 @@ namespace Taka.App.Deliverer.Application.Services
 
         public async Task<string> UploadFileAsync(byte[] fileData, string fileName)
         {
-            var localStorage = _configuration["LocalStorage"] ?? throw new ApplicationException("LocalStorage not ");
+            var storage = Directory.Exists(_configuration["LocalStorage"] ?? throw new AppException("LocalStorage not configuration"));
+
+            var localStorage =  storage ? _configuration["LocalStorage"] : Path.GetTempPath();
             var filePath = Path.Combine(localStorage, fileName);
             await File.WriteAllBytesAsync(filePath, fileData);
                         

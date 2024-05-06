@@ -85,7 +85,7 @@ namespace Taka.App.Rentals.Infra.Data.Repositories
             await _context.SaveChangesAsync();
 
             return rental;
-        }        
+        }                
     }
 
 }

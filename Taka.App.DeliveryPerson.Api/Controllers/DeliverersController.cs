@@ -79,7 +79,7 @@ namespace Taka.App.Deliverer.Api.Controllers
         /// <response code="500">Internal server error.</response>
         /// 
         [HttpPost]
-        public async Task<IActionResult> CreateDeliverer([FromForm] DelivererCreateRequest request)
+        public async Task<IActionResult> CreateDeliverer([FromBody] DelivererCreateRequest request)
         {
             try
             {

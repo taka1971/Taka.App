@@ -18,7 +18,7 @@ namespace Taka.App.Deliverer.Application.Mappers
                 Name = delivererRequest.Name,
                 CNPJ = delivererRequest.Cnpj,
                 CNHNumber = delivererRequest.Cnh,
-                CNHType = delivererRequest.cnhType,
+                CNHType = delivererRequest.CnhType,
                 BirthDate = delivererRequest.BirthDate
             };
         }        

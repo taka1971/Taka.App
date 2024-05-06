@@ -24,9 +24,12 @@ namespace Taka.App.Deliverer.Application.Services
         {
             var deliverer = DelivererMapper.DtoToEntity(request);
 
-            byte[] imageBytes = Convert.FromBase64String(request.CnhImage);
+            if (!string.IsNullOrEmpty(request.CnhImage))
+            {
+                byte[] imageBytes = Convert.FromBase64String(request.CnhImage);
 
-            deliverer.CNHImageUrl = await UploadFileAsync(imageBytes, request.Cnh);
+                deliverer.CNHImageUrl = await UploadFileAsync(imageBytes, request.Cnh);
+            }
 
             await _delivererRepository.AddAsync(deliverer);
             return DelivererMapper.EntityToDto(deliverer);
@@ -42,7 +45,7 @@ namespace Taka.App.Deliverer.Application.Services
                     throw new AppException("It is not possible to delete this delivery person. There is one or more rentals made by him.");
 
                 await _delivererRepository.DeleteAsync(deliverer);
-            }            
+            }
         }
 
         public async Task<IEnumerable<DelivererResponse>> GetAllAsync()

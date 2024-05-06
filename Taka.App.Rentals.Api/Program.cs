@@ -95,10 +95,7 @@ builder.Services.AddInMemoryRateLimiting();
 builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
-builder.Services.AddMediatR(options =>
-{
-    options.RegisterServicesFromAssemblies(typeof(CheckRentalAvailabilityHandler).Assembly);
-});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 

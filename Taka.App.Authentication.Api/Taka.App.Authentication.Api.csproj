@@ -24,6 +24,7 @@
     <ProjectReference Include="..\Taka.App.Authentication.Domain\Taka.App.Authentication.Domain.csproj" />
     <ProjectReference Include="..\Taka.App.Authentication.Infra.Data\Taka.App.Authentication.Infra.Data.csproj" />
     <ProjectReference Include="..\Taka.App.Authentication.Infra.Services\Taka.App.Authentication.Infra.Services.csproj" />
+    <ProjectReference Include="..\Taka.Common\Taka.Common.csproj" />
   </ItemGroup>
 
 </Project>

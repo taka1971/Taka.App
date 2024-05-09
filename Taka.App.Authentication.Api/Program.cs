@@ -13,6 +13,7 @@ using Taka.App.Authentication.Domain.Entities;
 using Taka.App.Authentication.Domain.Interfaces;
 using Taka.App.Authentication.Infra.Data.Repositories;
 using Taka.App.Authentication.Infra.Services.HealthCheck;
+using Taka.Common.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,6 +88,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

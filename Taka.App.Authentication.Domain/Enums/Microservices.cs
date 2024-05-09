@@ -5,7 +5,6 @@
         AllServices = 0,
         ServicesMotorcycle = 1,       
         ServicesDeliveryPerson = 2,
-        ServicesRental = 3,
-        ServicesMotorcycleFromRental = 4
+        ServicesRental = 3
     }
 }

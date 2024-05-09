@@ -26,6 +26,8 @@ namespace Taka.App.Motor.Infra.Security.Authorization
 
                 var accessibleMicroservicesJson = context.User.Claims.FirstOrDefault(c => c.Type == "AccessibleMicroservices")?.Value;
 
+
+
                 if (accessibleMicroservicesJson != null)
                 {
                     var accessibleMicroservices = JsonConvert.DeserializeObject<List<int>>(accessibleMicroservicesJson) 

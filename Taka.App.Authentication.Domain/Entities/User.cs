@@ -17,7 +17,7 @@ namespace Taka.App.Authentication.Domain.Entities
         public string PasswordHash { get; set; } = string.Empty;
 
         [BsonElement("AccessibleMicroservices")]
-        public List<Microservices> AccessibleMicroservices { get; set; } = new List<Microservices> { Microservices.ServicesRental, Microservices.ServicesDeliveryPerson, Microservices.ServicesMotorcycleFromRental};
+        public List<Microservices> AccessibleMicroservices { get; set; } = new List<Microservices> { Microservices.ServicesRental, Microservices.ServicesDeliveryPerson, Microservices.ServicesMotorcycle};
 
         [BsonElement("Roles")]        
         public List<RolesTypes> Roles { get; set; } = new List<RolesTypes> { RolesTypes.DeliveryPerson };

@@ -1,18 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Taka.App.Authentication.Domain.Dtos;
 using Taka.App.Authentication.Domain.Interfaces;
-using Taka.App.Authentication.Domain.Responses;
 using Taka.App.Authentication.Application;
 using Taka.App.Authentication.Domain.Exceptions;
 using Serilog;
-using Taka.App.Authentication.Domain.Entities;
-using Taka.App.Authentication.Domain.Enums;
+using Taka.Common;
 
 namespace Taka.App.Authentication.Api.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class AuthController : ControllerBase
+    public class AuthController : BaseController
     {
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
@@ -22,7 +20,6 @@ namespace Taka.App.Authentication.Api.Controllers
             _userService = userService;
             _tokenService = tokenService;          
         }
-
 
         /// <summary>
         /// Register one new user.
@@ -35,24 +32,13 @@ namespace Taka.App.Authentication.Api.Controllers
         /// <response code="500">Internal server error.</response>
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterRequest request)
-        {
-            try
-            {
-                var user = await _userService.CreateUserAsync(request);
-                Log.Information("Success. User {Email} registered.", user.Email);
-                return Ok(user.ToDto());
-            }
-            catch (UserFailValidationException ex)
-            {
-                Log.Warning(ex, "Error. Fail validation {Email}. {Message}", request.Email, ex.Message);
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Log.Warning(ex, "Error when trying to create user {Email}. {Message}", request.Email, ex.Message);
-                return StatusCode(500, ex.Message);
-            }
+        {            
+            var user = await _userService.CreateUserAsync(request);
+            var message = $"Success. User {user.Email} registered."; 
 
+            Log.Information(message);
+
+            return SuccessResponse(message,user.ToDto());
         }
 
         /// <summary>

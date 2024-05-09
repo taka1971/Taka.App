@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Taka.App.Authentication.Aplication\Taka.App.Authentication.Application.csproj" />
+    <ProjectReference Include="..\Taka.App.Authentication.Crosscutting\Taka.App.Authentication.Crosscutting.csproj" />
     <ProjectReference Include="..\Taka.App.Authentication.Domain\Taka.App.Authentication.Domain.csproj" />
     <ProjectReference Include="..\Taka.App.Authentication.Infra.Data\Taka.App.Authentication.Infra.Data.csproj" />
     <ProjectReference Include="..\Taka.App.Authentication.Infra.Services\Taka.App.Authentication.Infra.Services.csproj" />

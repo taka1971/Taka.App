@@ -18,6 +18,7 @@ using Taka.App.Rentals.Application.BackgroundService;
 using Taka.App.Rentals.Application.Handlers;
 using Taka.App.Rentals.Application.Services;
 using Taka.App.Rentals.Application.Services.Apis;
+using Taka.App.Rentals.Crosscutting.Middlewares;
 using Taka.App.Rentals.Domain.Exceptions;
 using Taka.App.Rentals.Domain.Interfaces;
 using Taka.App.Rentals.Infra.Data.Repositories;

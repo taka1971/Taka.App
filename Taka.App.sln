@@ -123,6 +123,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Security", "Security", "{61
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taka.App.Motor.Infra.Security", "Taka.App.Motor.Infra.Security\Taka.App.Motor.Infra.Security.csproj", "{0DC007E5-A737-48B4-843B-71A526FF3459}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taka.App.Authentication.Crosscutting", "Taka.App.Authentication.Crosscutting\Taka.App.Authentication.Crosscutting.csproj", "{1627597C-A992-4CDE-867F-D1B9C8125D0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taka.App.Deliverer.Crosscutting", "Taka.App.Deliverer.Crosscutting\Taka.App.Deliverer.Crosscutting.csproj", "{016A7284-BB7E-4473-990A-B16253EABE90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taka.App.Motor.Crosscutting", "Taka.App.Motor.Crosscutting\Taka.App.Motor.Crosscutting.csproj", "{F273F170-CB4A-433C-BC4B-639CFE969F3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taka.App.Rentals.Crosscutting", "Taka.App.Rentals.Crosscutting\Taka.App.Rentals.Crosscutting.csproj", "{7DE915F7-68EB-404A-B271-4AC1319D890A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -225,6 +233,22 @@ Global
 		{0DC007E5-A737-48B4-843B-71A526FF3459}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DC007E5-A737-48B4-843B-71A526FF3459}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DC007E5-A737-48B4-843B-71A526FF3459}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1627597C-A992-4CDE-867F-D1B9C8125D0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1627597C-A992-4CDE-867F-D1B9C8125D0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1627597C-A992-4CDE-867F-D1B9C8125D0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1627597C-A992-4CDE-867F-D1B9C8125D0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{016A7284-BB7E-4473-990A-B16253EABE90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{016A7284-BB7E-4473-990A-B16253EABE90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{016A7284-BB7E-4473-990A-B16253EABE90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{016A7284-BB7E-4473-990A-B16253EABE90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F273F170-CB4A-433C-BC4B-639CFE969F3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F273F170-CB4A-433C-BC4B-639CFE969F3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F273F170-CB4A-433C-BC4B-639CFE969F3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F273F170-CB4A-433C-BC4B-639CFE969F3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DE915F7-68EB-404A-B271-4AC1319D890A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DE915F7-68EB-404A-B271-4AC1319D890A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DE915F7-68EB-404A-B271-4AC1319D890A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DE915F7-68EB-404A-B271-4AC1319D890A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -285,6 +309,10 @@ Global
 		{B8F1BA56-EED7-494B-8AAB-3A0C793065A0} = {29F3E9D0-CB27-4E45-BB44-5403D33A55BF}
 		{61202FB2-526E-4661-9D6B-BB01E06A3E95} = {0C8EA0DE-1B86-4BED-980E-0F5CA25982DE}
 		{0DC007E5-A737-48B4-843B-71A526FF3459} = {61202FB2-526E-4661-9D6B-BB01E06A3E95}
+		{1627597C-A992-4CDE-867F-D1B9C8125D0B} = {CB2F5712-9C4B-48F9-ADE6-518724CC1A9C}
+		{016A7284-BB7E-4473-990A-B16253EABE90} = {86BA303E-F7B1-4A4C-9639-83DCF7C5C4D8}
+		{F273F170-CB4A-433C-BC4B-639CFE969F3F} = {405856F3-BB3E-4A58-8FD7-AD3E999AA72B}
+		{7DE915F7-68EB-404A-B271-4AC1319D890A} = {9B8EFE3F-19E6-425D-856C-65AA14F00291}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2DEE59C-473B-4B43-9844-C965344E4392}

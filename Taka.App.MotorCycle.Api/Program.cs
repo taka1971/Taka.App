@@ -24,6 +24,7 @@ using Taka.App.Motor.Application.Handlers;
 using Taka.App.Motor.Infra.Security.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Taka.App.Motor.Infra.Data.Connections;
+using Taka.App.Motor.Crosscutting.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -9,11 +9,12 @@ using Serilog.Sinks.Elasticsearch;
 using System.Reflection;
 using Taka.App.Authentication.Application.BackgroundService;
 using Taka.App.Authentication.Application.Services;
+using Taka.App.Authentication.Crosscutting.Middlewares;
 using Taka.App.Authentication.Domain.Entities;
 using Taka.App.Authentication.Domain.Interfaces;
 using Taka.App.Authentication.Infra.Data.Repositories;
 using Taka.App.Authentication.Infra.Services.HealthCheck;
-using Taka.Common.Middlewares;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

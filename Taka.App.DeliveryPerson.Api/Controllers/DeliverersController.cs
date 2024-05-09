@@ -4,13 +4,14 @@ using Taka.App.Deliverer.Domain.Enums;
 using Taka.App.Deliverer.Domain.Exceptions;
 using Taka.App.Deliverer.Domain.Interfaces;
 using Taka.App.Deliverer.Domain.Requests;
+using Taka.Common;
 
 namespace Taka.App.Deliverer.Api.Controllers
 {
     [Authorize(Policy = "MustHaveMicroserviceAccess")]
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class DeliverersController : ControllerBase
+    public class DeliverersController : BaseController
     {
         private readonly IDelivererService _delivererService;
         public DeliverersController(IDelivererService delivererService)
@@ -25,14 +26,15 @@ namespace Taka.App.Deliverer.Api.Controllers
         /// Use when you want to return all deliverers        
         /// </remarks>
         /// <response code="200">Success.</response>
-        /// <response code="404">The query was successful, returning the data.</response>        
+        /// <response code="404">The query was executed, but found no data.</response>        
         /// 
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var deliverers = await _delivererService.GetAllAsync();
-            return deliverers.Any() ? Ok(deliverers) : NotFound("There are still no records of registered deliverers.");
+
+            return ApiResponse(deliverers);
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace Taka.App.Deliverer.Api.Controllers
         /// Query a specific deliverer, using their id for search.
         /// </remarks>
         /// <response code="200">Success query deliverer.</response>
-        /// <response code="404">The query was successful, returning the data.</response>
+        /// <response code="404">The query was executed, but found no data.</response>
         /// <response code="400">Fail validation.</response>
         /// <response code="500">Internal server error.</response>
         /// 
@@ -50,21 +52,10 @@ namespace Taka.App.Deliverer.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            try
-            {
-                var deliverer = await _delivererService.GetByIdAsync(id);
+            var deliverer = await _delivererService.GetByIdAsync(id);
 
-                return Ok(deliverer);
-            }
-            catch (DomainException ex)
-            {
-                return ex.ErrorCode == DomainErrorCode.DelivererNotFound
-                                     ? NotFound(ex.Message) : StatusCode(500, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return ApiResponse(deliverer);
+
         }
 
         /// <summary>
@@ -81,19 +72,8 @@ namespace Taka.App.Deliverer.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateDeliverer([FromBody] DelivererCreateRequest request)
         {
-            try
-            {
-                var createdDeliverer = await _delivererService.AddAsync(request);
-                return Ok(createdDeliverer);
-            }
-            catch (DomainException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            var createdDeliverer = await _delivererService.AddAsync(request);
+            return ApiResponse(createdDeliverer);
         }
 
         /// <summary>
@@ -110,19 +90,8 @@ namespace Taka.App.Deliverer.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] DelivererUpdateRequest motorcycleRequest)
         {
-            try
-            {
-                await _delivererService.UpdateAsync(motorcycleRequest);
-                return NoContent();
-            }
-            catch (DomainException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            await _delivererService.UpdateAsync(motorcycleRequest);
+            return NoContent();
         }
 
         /// <summary>
@@ -139,19 +108,8 @@ namespace Taka.App.Deliverer.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            try
-            {
-                await _delivererService.DeleteAsync(id);
-                return NoContent();
-            }
-            catch (DomainException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            await _delivererService.DeleteAsync(id);
+            return NoContent();
         }
     }
 }

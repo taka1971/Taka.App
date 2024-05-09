@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Taka.App.Deliverer.Application\Taka.App.Deliverer.Application.csproj" />
+    <ProjectReference Include="..\Taka.App.Deliverer.Crosscutting\Taka.App.Deliverer.Crosscutting.csproj" />
     <ProjectReference Include="..\Taka.App.Deliverer.Domain\Taka.App.Deliverer.Domain.csproj" />
     <ProjectReference Include="..\Taka.App.Deliverer.Infra.Data\Taka.App.Deliverer.Infra.Data.csproj" />
     <ProjectReference Include="..\Taka.Common\Taka.Common.csproj" />

@@ -29,6 +29,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Taka.App.Motor.Application\Taka.App.Motor.Application.csproj" />
+		<ProjectReference Include="..\Taka.App.Motor.Crosscutting\Taka.App.Motor.Crosscutting.csproj" />
 		<ProjectReference Include="..\Taka.App.Motor.Infra.Data\Taka.App.Motor.Infra.Data.csproj" />
 		<ProjectReference Include="..\Taka.App.Motor.Infra.Security\Taka.App.Motor.Infra.Security.csproj" />
 		<ProjectReference Include="..\Taka.Common\Taka.Common.csproj" />

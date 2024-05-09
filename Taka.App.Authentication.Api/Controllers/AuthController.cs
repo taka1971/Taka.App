@@ -2,8 +2,6 @@
 using Taka.App.Authentication.Domain.Dtos;
 using Taka.App.Authentication.Domain.Interfaces;
 using Taka.App.Authentication.Application;
-using Taka.App.Authentication.Domain.Exceptions;
-using Serilog;
 using Taka.Common;
 
 namespace Taka.App.Authentication.Api.Controllers
@@ -14,11 +12,11 @@ namespace Taka.App.Authentication.Api.Controllers
     {
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
-       
+
         public AuthController(IUserService userService, ITokenService tokenService)
         {
             _userService = userService;
-            _tokenService = tokenService;          
+            _tokenService = tokenService;
         }
 
         /// <summary>
@@ -32,13 +30,11 @@ namespace Taka.App.Authentication.Api.Controllers
         /// <response code="500">Internal server error.</response>
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterRequest request)
-        {            
+        {
             var user = await _userService.CreateUserAsync(request);
-            var message = $"Success. User {user.Email} registered."; 
+            var message = $"Success. User {user.Email} registered.";
 
-            Log.Information(message);
-
-            return SuccessResponse(message,user.ToDto());
+            return ApiResponse(message, user.ToDto());
         }
 
         /// <summary>
@@ -54,22 +50,10 @@ namespace Taka.App.Authentication.Api.Controllers
         [HttpPut("alter")]
         public async Task<IActionResult> AlterAdmin([FromBody] UserUpdateRequest request)
         {
-            try
-            {
-                var user = await _userService.UpdateUserAdminAsync(request.Email, request.Password);
-                Log.Information("Success. User {Email} altered.", user.Email);
-                return Ok(user.ToDto());
-            }
-            catch (UserFailValidationException ex)
-            {
-                Log.Warning(ex, "Error. Fail validation {Email}. {Message}", request.Email, ex.Message);
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Log.Warning(ex, "Error when trying to update user {Email}. {Message}", request.Email, ex.Message);
-                return StatusCode(500, ex.Message);
-            }
+            var user = await _userService.UpdateUserAdminAsync(request.Email, request.Password);
+            var message = $"Success. User {user.Email} altered.";
+
+            return ApiResponse(message, user.ToDto());
         }
 
         /// <summary>
@@ -85,25 +69,11 @@ namespace Taka.App.Authentication.Api.Controllers
         [HttpGet("login")]
         public async Task<IActionResult> Login([FromQuery] UserLoginRequest request)
         {
-            try
-            {
-                var user = await _userService.AuthenticateAsync(request.Email, request.Password);
+            var user = await _userService.AuthenticateAsync(request.Email, request.Password);
+            var token = _tokenService.GenerateJwtToken(user);
+            var message = $"Success. Generate Token from User {request.Email}.";
 
-                var token = _tokenService.GenerateJwtToken(user);
-
-                Log.Information("Success. Generate Token from User {Email}.", request.Email);
-                return Ok(token);
-            }
-            catch (UserFailValidationException ex)
-            {
-                Log.Warning(ex, "Unauthorized {Email}. User or password invalid.", request.Email);
-                return Unauthorized(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Log.Warning(ex, "Unable to perform user {Email} authentication", request.Email);
-                return StatusCode(500, ex.Message);
-            }
+            return ApiResponse(message, token);
         }
 
         /// <summary>
@@ -119,23 +89,10 @@ namespace Taka.App.Authentication.Api.Controllers
         [HttpPost("refreshtoken")]
         public async Task<IActionResult> RefreshTokenUser([FromBody] RefreshTokenRequest request)
         {
-            try
-            {
-                var token = await _tokenService.RefreshToken(request);
+            var token = await _tokenService.RefreshToken(request);
 
-                Log.Information("Success. Generate Token from User {Email}.", request.UserEmail);
-                return Ok(token);
-            }
-            catch (UserFailValidationException ex)
-            {
-                Log.Warning(ex, "Unauthorized {Token}. User or password invalid.", request.Token);
-                return Unauthorized(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Log.Warning(ex, "Unable to perform user {Token} authentication", request.Token);
-                return StatusCode(500, ex.Message);
-            }
+            var message = $"Success. Generate Token from User {request.UserEmail}.";
+            return ApiResponse(message, token);
         }
     }
 }

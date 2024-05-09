@@ -16,6 +16,7 @@ using System.Text;
 using Taka.App.Deliverer.Application.BackgroundService;
 using Taka.App.Deliverer.Application.Services;
 using Taka.App.Deliverer.Application.Services.Apis;
+using Taka.App.Deliverer.Crosscutting;
 using Taka.App.Deliverer.Domain.Exceptions;
 using Taka.App.Deliverer.Domain.Interfaces;
 using Taka.App.Deliverer.Infra.Data.Context;

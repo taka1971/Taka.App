@@ -23,6 +23,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Taka.Api.Rentals.Domain\Taka.App.Rentals.Domain.csproj" />
 		<ProjectReference Include="..\Taka.App.Rentals.Application\Taka.App.Rentals.Application.csproj" />
+		<ProjectReference Include="..\Taka.App.Rentals.Crosscutting\Taka.App.Rentals.Crosscutting.csproj" />
 		<ProjectReference Include="..\Taka.App.Rentals.Infra.Data\Taka.App.Rentals.Infra.Data.csproj" />
 		<ProjectReference Include="..\Taka.App.Rentals.Infra.Providers\Taka.App.Rentals.Infra.Providers.csproj" />
 		<ProjectReference Include="..\Taka.Common\Taka.Common.csproj" />

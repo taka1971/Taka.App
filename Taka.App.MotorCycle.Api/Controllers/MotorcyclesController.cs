@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Taka.App.Motor.Domain.Enums;
-using Taka.App.Motor.Domain.Exceptions;
 using Taka.App.Motor.Domain.Interfaces;
 using Taka.App.Motor.Domain.Request;
+using Taka.Common;
 using Taka.Common.Infrastructure;
 
 namespace Taka.App.Motor.Api.Controllers
@@ -11,7 +10,7 @@ namespace Taka.App.Motor.Api.Controllers
     [Authorize(Policy = "MustHaveMicroserviceAccess")]
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class MotorcyclesController : ControllerBase
+    public class MotorcyclesController : BaseController
     {
         private readonly IMotorcycleService _motorcycleService;
         private readonly ResilienceEngine _resilienceEngine;
@@ -37,15 +36,8 @@ namespace Taka.App.Motor.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            try
-            {
-                var motorcycles = await _motorcycleService.GetAllAsync();
-                return motorcycles.Any() ? Ok(motorcycles) : NotFound("Not found any motorcycles.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var motorcycles = await _motorcycleService.GetAllAsync();
+            return ApiResponse(motorcycles);
         }
 
         /// <summary>
@@ -63,21 +55,8 @@ namespace Taka.App.Motor.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            try
-            {
-                var motorcycle = await _motorcycleService.GetByIdAsync(id);
-
-                return Ok(motorcycle);
-            }
-            catch (DomainException ex)
-            {
-                return ex.ErrorCode == DomainErrorCode.MotorcycleNotFound
-                                     ? NotFound(ex.Message) : StatusCode(500, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var motorcycle = await _motorcycleService.GetByIdAsync(id);
+            return ApiResponse(motorcycle);
         }
 
         /// <summary>
@@ -94,21 +73,8 @@ namespace Taka.App.Motor.Api.Controllers
         [HttpGet("plate/{plate}")]
         public async Task<IActionResult> GetByPlate(string plate)
         {
-            try
-            {
-                var motorcycle = await _motorcycleService.GetByPlateAsync(plate);
-                
-                return Ok(motorcycle);
-            }
-            catch (DomainException ex)
-            {
-                return ex.ErrorCode == DomainErrorCode.MotorcycleNotFound
-                                     ? NotFound(ex.Message) : StatusCode(500, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var motorcycle = await _motorcycleService.GetByPlateAsync(plate);
+            return ApiResponse(motorcycle);
         }
 
         /// <summary>
@@ -124,20 +90,10 @@ namespace Taka.App.Motor.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] MotorcycleCreateRequest motorcycleRequest)
         {
-            try
-            {
-                await _motorcycleService.AddAsync(motorcycleRequest);
+            await _motorcycleService.AddAsync(motorcycleRequest);
+            var message = "Motorcycle registration received and is being processed.";
 
-                return Accepted(new { message = "Motorcycle registration received and is being processed." });
-            }
-            catch (DomainException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            return ApiResponse(message);
         }
 
         /// <summary>
@@ -153,20 +109,8 @@ namespace Taka.App.Motor.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] MotorcycleUpdateRequest motorcycleRequest)
         {
-            try
-            {
-                await _motorcycleService.UpdateAsync(motorcycleRequest);                
-
-                return NoContent();
-            }
-            catch (DomainException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            await _motorcycleService.UpdateAsync(motorcycleRequest);
+            return NoContent();
         }
 
         /// <summary>
@@ -182,20 +126,8 @@ namespace Taka.App.Motor.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            try
-            {
-                await _motorcycleService.DeleteAsync(id);
-
-                return NoContent();
-            }
-            catch (DomainException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            await _motorcycleService.DeleteAsync(id);
+            return NoContent();
         }
     }
 }
